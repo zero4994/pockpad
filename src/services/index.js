@@ -14,3 +14,15 @@ export const requestToken = () => {
     headers: { Accept: "application/json", "Content-Type": "application/json" }
   });
 };
+
+export const authorizeToken = token => {
+  return axios({
+    method: "POST",
+    url: "/graphql",
+    data: JSON.stringify({
+      query: `{
+                Authorize (${token})
+            }`
+    })
+  });
+};

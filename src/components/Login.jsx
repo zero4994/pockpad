@@ -2,32 +2,43 @@ import React, { Component } from "react";
 import { requestToken } from "../services/index";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      code: ""
+    };
+  }
+
   async login() {
     try {
       console.log("Login in...");
       const { data } = await requestToken();
       console.log("data ===>", data);
-      //this.authorize(data);
+      const code = data.data.Login;
+      this.setState({ code });
+
+      window.open(
+        `https://getpocket.com/auth/authorize?request_token=${code}&redirect_uri=http://www.google.com`,
+        "_blank"
+      );
     } catch (error) {
       console.log(error);
     }
   }
 
-  async authorize(token) {
-    // //https://getpocket.com/auth/authorize?request_token=YOUR_REQUEST_TOKEN&redirect_uri=YOUR_REDIRECT_URI
-    // const { data } = await axios({
-    //   method: "post",
-    //   url: `https://getpocket.com/auth/authorize?request_token=${token}&redirect_uri=test`
-    // });
-    // console.log("data ===>", data);
-
-    window.location = `https://getpocket.com/auth/authorize?request_token=${token}&redirect_uri=http://www.google.com`;
-  }
+  authorize = async () => {
+    console.log("Authorizing", this.state);
+  };
 
   render() {
     return (
       <div>
         <button onClick={this.login.bind(this)}>Login</button>
+        <div>
+          <button onClick={this.authorize} style={{ "margin-top": "20px" }}>
+            Authorize
+          </button>
+        </div>
       </div>
     );
   }
