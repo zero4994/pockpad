@@ -1,6 +1,12 @@
 const definition = `
+    type AuthorizedUser {
+        access_token: String
+        username: String
+    }
+
     type Query {
-        Login:String
+        Login: String
+        Authorize (code: String!): AuthorizedUser
     }
 `;
 
