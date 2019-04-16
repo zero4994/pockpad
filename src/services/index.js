@@ -21,8 +21,12 @@ export const authorizeToken = token => {
     url: "/graphql",
     data: JSON.stringify({
       query: `{
-                Authorize (${token})
+                Authorize (code: "${token}") {
+                    access_token
+                    username
+                }
             }`
-    })
+    }),
+    headers: { Accept: "application/json", "Content-Type": "application/json" }
   });
 };
