@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { requestToken } from "../services/index";
+import { requestToken, authorizeToken } from "../services/index";
 
 class Login extends Component {
   constructor(props) {
@@ -28,6 +28,16 @@ class Login extends Component {
 
   authorize = async () => {
     console.log("Authorizing", this.state);
+    try {
+      const { data } = await authorizeToken(this.state.code);
+      console.log("data===>", data);
+      this.props.onUserAuthorized(
+        data.data.Authorize.access_token,
+        data.data.Authorize.username
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
@@ -35,7 +45,7 @@ class Login extends Component {
       <div>
         <button onClick={this.login.bind(this)}>Login</button>
         <div>
-          <button onClick={this.authorize} style={{ "margin-top": "20px" }}>
+          <button onClick={this.authorize} style={{ marginTop: "20px" }}>
             Authorize
           </button>
         </div>
