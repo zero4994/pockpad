@@ -1,24 +1,16 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { requestToken } from "../services/index";
 
 class Login extends Component {
   async login() {
-    console.log("Login in...");
-    const { data } = await axios({
-      method: "post",
-      url: `https://getpocket.com/v3/oauth/request?consumer_key=${
-        process.env.REACT_APP_CONSUMER_KEY
-      }&redirect_uri=test`,
-      mode: "no-cors",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      },
-      withCredentials: true,
-      credentials: "http://localhost:3000"
-    });
-    console.log("data ===>", data);
-    this.authorize(data);
+    try {
+      console.log("Login in...");
+      const { data } = await requestToken();
+      console.log("data ===>", data);
+      //this.authorize(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async authorize(token) {
