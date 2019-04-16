@@ -3,9 +3,11 @@ const graphqlHTTP = require("express-graphql");
 const { buildSchema } = require("graphql");
 const { definition } = require("./schema");
 const { resolvers } = require("./resolvers");
+const morgan = require("morgan");
 
 const schema = buildSchema(definition);
 const app = express();
+app.use(morgan("combined"));
 
 require("dotenv").config();
 
